@@ -1,7 +1,10 @@
 // This will check if the node version you are running is the required
 // Node version, if it isn't it will throw the following error to inform
 // you.
-if (Number(process.version.slice(1).split(".")[0]) < 12) throw new Error("Node 12.0.0 or higher is required. Update Node on your system.");
+if (Number(process.version.slice(1).split(".")[0]) < 12)
+  throw new Error(
+    "Node 12.0.0 or higher is required. Update Node on your system.",
+  );
 
 // Load up the discord.js library
 const Discord = require("discord.js");
@@ -16,8 +19,8 @@ const config = require("./config.js");
 // or `bot.something`, this is what we're referring to. Your client.
 const am = new Discord.Client({
   ws: {
-    intents: config.intents
-  }
+    intents: config.intents,
+  },
 });
 
 // Here we load the config file that contains our token and our prefix values.
@@ -46,7 +49,6 @@ am.settings = new Enmap({ name: "settings" });
 // we need to wrap stuff in an anonymous function. It's annoying but it works.
 
 const init = async () => {
-
   // Here we load **commands** into memory, as a collection, so they're accessible
   // here and everywhere else.
   const cmdFiles = await readdir("./commands/");
@@ -65,19 +67,9 @@ const init = async () => {
     am.logger.log(`Loading Event: ${eventName}`);
     const event = require(`./events/${file}`);
     // Bind the client to any event, before the existing arguments
-    // provided by the discord.js event. 
+    // provided by the discord.js event.
     // This line is awesome by the way. Just sayin'.
     am.on(eventName, event.bind(null, am));
-  });
-
-  // TODO: Implementar una forma mejor al estilo Joel (algo como OhMyBlob creo que dijo)
-  const episodes = await readdir("./episodes/");
-  am.logger.log(`Loading a total of ${episodes.length} episodes.`);
-  episodes.forEach(f => {
-    console.log(f);
-    // if (!f.endsWith(".js")) return;
-    // const response = am.loadCommand(f);
-    // if (response) console.log(response);
   });
 
   // Generate a cache of client permissions for pretty perm names in commands.
