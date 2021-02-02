@@ -1,5 +1,5 @@
 {
-  "title": "**🕐 INICIANDO PROTOCOLO DE PROGRAMACIÓN 🕐**",
+  "title": "** ENDING **",
   "description": "**☢ ADVERTENCIA ☢**",
   "images": [
     "https://i.imgur.com/n7vnWE7.jpeg"
@@ -11,10 +11,10 @@
     "gustav-robo-Donde_estoy.mp3"
   ],
   "reactions": {
-    "⚠️": -2,
+    "⚠️": 2,
     "🧩": 3,
     "👬": 1,
     "🧪": 5
   },
-  "next": 1
+  "next": -1
 }

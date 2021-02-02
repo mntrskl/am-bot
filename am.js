@@ -79,6 +79,10 @@ const init = async () => {
     am.levelCache[thisLevel.name] = thisLevel.level;
   }
 
+  const episodesFiles = await readdir("./episodes/");
+  am.logger.log(`Loading a total of ${episodesFiles.length} episodes.`);
+  am.episodes = episodesFiles.map(e => require(`./episodes/${e}`));
+
   // Here we login the client.
   am.login(am.config.token);
 
