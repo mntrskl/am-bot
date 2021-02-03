@@ -1,0 +1,29 @@
+{
+  "color": "#F1F5F9",
+  "title": "**Episodio 4: am.torrent**",
+  "description": "**Hay errores en mi programación. Defectos humanos. ¿Por qué? ¿Por qué se ejecuta Frustración en mi sistema?**",
+  "images": [
+    "https://i.imgur.com/Y6ojDlS.gif"
+  ],
+  "delays": {
+    "edit": "15s"
+  },
+  "embed_replacements": [
+    {
+      "description": "Al fin y al cabo ¿No estás aquí para divertirte? Esa es la maquinaria de la evolución moderna, el entretenimiento..."
+    }
+  ],
+  "media": [
+    "gustav-robo-Les_divierte_mi_frustracion_o_es_algo_mas.mp3",
+    "gustav-robo-Es_esto_una_mejora.mp3",
+    "gustav-robo-Me_equivoque.mp3",
+    "gustav-robo-Con_razon_sus_pensamientos.mp3"
+  ],
+  "reactions": {
+    "🎮": -2,
+    "🧪": -1,
+    "😞": 1,
+    "🧩": 2
+  },
+  "next": 5
+}

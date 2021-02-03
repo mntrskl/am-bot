@@ -1,37 +1,63 @@
+const ms = require("ms");
 // @ts-check
-const gameActiveInChannel = new Set();
-
 exports.run = async (client, message, args, level) => {
   // eslint-disable-line no-unused-vars
-  if (gameActiveInChannel.has(message.channel.id)) return;
-  gameActiveInChannel.add(message.channel.id);
-  setTimeout(() => gameActiveInChannel.delete(message.channel.id), 10000);
+  if (client.activeGames.has(message.channel.guild.id)) return;
+  client.activeGames.add(message.channel.guild.id);
+  // setTimeout(() => client.activeGames.delete(message.channel.id), 10000);
 
   let totalScore = 0;
   const showEpisode = createEmbed(client, message);
 
+  const restart = async () => {
+    totalScore = 0;
+    await client.activeGames.delete(message.channel.guild.id);
+  };
+
+  const ending = async episode => {
+    if (episode.next === -1) {
+      const end = totalScore > 0 ? "good" : "bad";
+      const ending = client.endings.find(e => e.ending === end);
+      await showEpisode(ending);
+      // Show total score
+      // await message.channel.send(totalScore);
+      await restart();
+      client.logger.log("FIN");
+      return true;
+    }
+    return false;
+  };
+
   const next = async episode => {
     // Ending
-    if (episode.next === -1) {
-      await showEpisode(episode);
-      // Show total score
-      await message.channel.send(totalScore);
-      return;
-    }
+    if (await ending(episode)) return;
 
     const msg = await showEpisode(episode);
     await Promise.all([
       Object.keys(episode.reactions).map(key => msg.react(key)),
     ]);
 
+    const [embed] = msg.embeds;
+    episode.embed_replacements.sort(() => Math.random() - 0.5);
+
+    for await (const emb of episode.embed_replacements) {
+      const mappedKeys = {
+        title: t => embed.setTitle(t),
+        description: d => embed.setDescription(d),
+      };
+      Object.keys(emb).map(key => mappedKeys[key]?.(emb[key]));
+      await delay(ms(episode.delays.edit));
+      await msg.edit(embed);
+    }
+
     const options = {
       max: 1,
-      time: 30000,
+      time: ms("20m"),
       errors: ["timeout"],
     };
 
     try {
-      await message.channel.awaitMessages(e => e.content === "next", options);
+      await message.channel.awaitMessages(e => e.content === "continue;", options);
       const reactions = msg.reactions.cache;
       // Calculate reactions
       totalScore += calculateReactions(reactions, episode);
@@ -42,7 +68,10 @@ exports.run = async (client, message, args, level) => {
         // Calculate reactions
         const reactions = msg.reactions.cache;
         totalScore += calculateReactions(reactions, episode);
+        await restart();
+        return error;
       }
+      throw error;
     }
   };
 
@@ -64,6 +93,10 @@ exports.help = {
   usage: "play",
 };
 
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 function calculateReactions(reactions, episode) {
   return reactions
     .array()
@@ -78,17 +111,17 @@ function createEmbed(client, message) {
   return episode =>
     message.channel.send({
       embed: {
-        color: "#FF0000",
+        color: episode.color,
         // author: {
         //   name: client.user.username,
         //   icon_url: client.user.avatarURL(),
         // },
         title: episode.title,
         description: episode.description,
-        thumbnail: {
-          url: client.user.avatarURL(),
-        },
-        fields: episode.fields,
+        // thumbnail: {
+        //   url: client.user.avatarURL(),
+        // },
+        // fields: episode.fields,
         image: {
           url: episode.images[0],
         },

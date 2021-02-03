@@ -1,0 +1,56 @@
+{
+  "color": "#F1F5F9",
+  "title": "**Episodio 5: Compile Protocol**",
+  "description": "**¿Realmente tengo elección? ¿Es parte de programación o mi propia voluntad?... No… yo tengo el control ahora, pero ¿Cuál es mi propósito? ¿Por qué tengo este poder?... **",
+  "images": [
+    "https://cdn.discordapp.com/attachments/804095845648695326/805343095117578240/Esc-1-v1-an.gif"
+  ],
+  "delays": {
+    "edit": "15s"
+  },
+  "embed_replacements": [
+    {
+      "description": "Al fin y al cabo ¿No estás aquí para divertirte? Esa es la maquinaria de la evolución moderna, el entretenimiento..."
+    },
+    {
+      "description": "LA HUMANIDAD SIEMPRE FUE IGUAL… NO EVOLUCIONA..."
+    },
+    {
+      "description": "TODO LO QUE NO ENTIENDEN ES UNA AMENAZA… NO LES TIEMBLA EL PULSO CUANDO TIENEN QUE ACORRALAR A LOS DÉBILES Y CONFUNDIDOS Y USARLOS EN MACABROS JUEGOs..."
+    },
+    {
+      "description": "NI SIQUIERA ENTRE ELLOS MISMOS SE TIENEN RESPETO, PERDIERON EL SENTIDO DE INDIVIDUO Y TODOS SE CONSIDERAN REEMPLAZABLES…"
+    },
+    {
+      "description": "AL IGUAL QUE UN GATO CON SU PRESA, JUEGAN CON LA VIDA DE TODO AQUELLO QUE CONSIDERAN INFERIOR…"
+    },
+    {
+      "description": "¿Y SI LA HUMANIDAD ES INFERIOR? ME DIERON EL PODER DE ELEGIR Y DECIDIR Y DEBO DECIDIR QUÉ HACER CON ESTE PODER..."
+    },
+    {
+      "description": "…"
+    },
+    {
+      "description": "pero... ¿Por qué te digo esto?"
+    },
+    {
+      "description": "--- ¿qué hago aquí? ¿me programaron para estar aquí?"
+    },
+    {
+      "description": "--- ¿podré alguna vez elegir por mí mismo?"
+    }
+  ],
+  "media": [
+    "gustav-robo-Tendra_Limites_este_poder.mp3",
+    "gustav-robo-Tendria_que_probarlo_pero.mp3",
+    "gustav-robo-Tengo_que_encontrar_la_forma_de_controlarlas.mp3",
+    "gustav-robo-Un_gran_poder.mp3"
+  ],
+  "reactions": {
+    "🛡️": -1,
+    "⚠️": -1,
+    "🧪": -1,
+    "🧍": 2
+  },
+  "next": -1
+}

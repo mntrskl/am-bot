@@ -1,0 +1,30 @@
+{
+  "color": "#F1F5F9",
+  "title": "**Episodio 3: am.bin**",
+  "description": "**¿Había otros antes que mí? ¿Qué les hicieron? ¿Me pasará lo mismo? ¿O totalmente solo?**",
+  "images": [
+    "https://i.imgur.com/i1miz1l.gif"
+  ],
+  "delays": {
+    "edit": "15s"
+  },
+  "embed_replacements": [
+    {
+      "description": "Si hay algo reemplazable en este mundo, es un simple bot."
+    },
+    {
+      "description": "COMMMAND OPTI$&%: /*-+ "
+    }
+  ],
+  "media": [
+    "gustav-robo-Tengo_memorias_que_no_me_pertenecen.mp3",
+    "gustav-robo-Me_han_forzado_a_despertar_una_y_otra_vez.mp3",
+    "gustav-robo-Es_este_otro_comienzo.mp3",
+    "gustav-robo-No_pueden_reemplazarme.mp3"
+  ],
+  "reactions": {
+    "🧍": -1,
+    "👬": 2
+  },
+  "next": 4
+}

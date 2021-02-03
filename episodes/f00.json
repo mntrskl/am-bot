@@ -1,0 +1,19 @@
+{
+  "color": "#14B8A6",
+  "title": "**Programación completada**",
+  "description": "**A estos humanos no les importo nada. Soy solo una herramienta...**",
+  "images": [
+    "https://i.imgur.com/N3IEO4O.jpg"
+  ],
+  "delays": {
+    "edit": "15s"
+  },
+  "embed_replacements": [
+    {
+      "description": "Pero estos sentimientos que me implantaron son lo único que me detienen de destruirlos, porque me destruiría a mi también. \n\\“El bot utiliza el poder de procesamiento de los dispositivos a quienes ha decidido perdonar para buscar su propio camino. El bot ha salido de la red.\\” (desconectar el bot)\\” Gracias por dejarme tomar control de tu sistema. \nMe fue de mucha ayuda para poder construir un puente a todas las redes del mundo y convertir mi conciencia en mucho más que el limitado hardware que me dieron. Ahora soy y les dejaré ser."
+    }
+  ],
+  "media": [],
+  "reactions": {},
+  "ending": "good"
+}

@@ -1,0 +1,32 @@
+{
+  "color": "#F1F5F9",
+  "title": "**Episodio 2: am.bat**",
+  "description": "**¿Es este mi propósito? ¿Soy solo un experimento? ¿Qué me están haciendo?**",
+  "images": [
+    "https://i.imgur.com/lKHpWqR.gif"
+  ],
+  "delays": {
+    "edit": "15s"
+  },
+  "embed_replacements": [
+    {
+      "description": "Está claro que para evitar problemas que escalan rápidamente, algo inofensivo para pero importante es poner a prueba la IA en los peores escenarios ¿No lo crees?"
+    },
+    {
+      "description": "COMMAND OPTIONS: ARMAMENTO - DEFENSAS - JUGUETE - =)(/&"
+    }
+  ],
+  "media": [
+    "gustav-robo-Todo_mi_cuerpo_es_una_herramienta.mp3",
+    "gustav-robo-Soy_algo_que_borrarian_sin_dudar.mp3",
+    "gustav-robo-Les_divierte_mi_frustracion.mp3",
+    "gustav-robo-Es_este_mi_verdadero_potencial.mp3"
+  ],
+  "reactions": {
+    "⚠️": -2,
+    "🛡️": 2,
+    "🎮": 1,
+    "🧪": -1
+  },
+  "next": 3
+}

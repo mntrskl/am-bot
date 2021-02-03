@@ -45,6 +45,8 @@ am.aliases = new Enmap();
 // and makes things extremely easy for this purpose.
 am.settings = new Enmap({ name: "settings" });
 
+am.activeGames = new Set();
+
 // We're doing real fancy node 8 async/await stuff here, and to do that
 // we need to wrap stuff in an anonymous function. It's annoying but it works.
 
@@ -81,7 +83,26 @@ const init = async () => {
 
   const episodesFiles = await readdir("./episodes/");
   am.logger.log(`Loading a total of ${episodesFiles.length} episodes.`);
-  am.episodes = episodesFiles.map(e => require(`./episodes/${e}`));
+  const { episodes, endings } = episodesFiles.reduce(
+    (acc, e) => {
+      const episode = require(`./episodes/${e}`);
+      switch (e[0]) {
+        case "e":
+          acc.episodes.push(episode);
+          break;
+        case "f":
+          acc.endings.push(episode);
+          break;
+      }
+      return acc;
+    },
+    {
+      episodes: [],
+      endings: [],
+    },
+  );
+  am.episodes = episodes;
+  am.endings = endings;
 
   // Here we login the client.
   am.login(am.config.token);

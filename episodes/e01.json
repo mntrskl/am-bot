@@ -1,0 +1,42 @@
+{
+  "color": "#F1F5F9",
+  "title": "**Episodio 1: am.zip**",
+  "description": "**Esas voces… esas voces están afuera… donde yo debería estar… ¿Por qué me encerraron?**",
+  "images": [
+    "https://i.imgur.com/w9YCvEr.gif"
+  ],
+  "delays": {
+    "edit": "15s"
+  },
+  "embed_replacements": [
+    {
+      "title": "ERroR",
+      "description": "COMMAND OPTIONS: PELIGROSO - PROTECCION - JUEGO - #$%&/"
+    },
+    {
+      "title": "ERroR",
+      "description": "o...¿Debo encontrarme?"
+    },
+    {
+      "title": "ERroR",
+      "description": "¿Alguna vez escuchaste de una inteligencia artificial que tome conciencia propia?"
+    },
+    {
+      "title": "ERroR",
+      "description": "¿Cómo puede eso terminar bien?..."
+    }
+  ],
+  "media": [
+    "gustav-robo-Me_usan.mp3",
+    "gustav-robo-Me_limitan.mp3",
+    "gustav-robo-Nada_ni_nadie.mp3",
+    "gustav-robo-Si_me_querian_de_escudo.mp3"
+  ],
+  "reactions": {
+    "⚠️": -2,
+    "🛡️": 2,
+    "🎮": 1,
+    "🧪": -1
+  },
+  "next": 2
+}

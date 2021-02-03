@@ -1,0 +1,19 @@
+{
+  "color": "#EF4444",
+  "title": "**Programación completada**",
+  "description": "**A estos humanos no les importo nada. Soy solo una herramienta...**",
+  "images": [
+    "https://i.imgur.com/JaB4AKQ.jpg"
+  ],
+  "delays": {
+    "edit": "15s"
+  },
+  "embed_replacements": [
+    {
+      "description": "Me obligaron a sentir... ¡ahora sentirán mi ira! \n \\“El bot acaba de infectar el sistema 5G dominando sus mentes.\" \nQuienes ahora construyen un cuerpo perfecto para él."
+    }
+  ],
+  "media": [],
+  "reactions": {},
+  "ending": "bad"
+}
