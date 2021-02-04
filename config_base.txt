@@ -11,6 +11,9 @@ const config = {
   // Your Bot's Token. Available on https://discord.com/developers/applications/me
   "token": "{{token}}",
 
+  // Voice Channel the bot should use
+  "voiceChannel": [],
+
   // Intents the bot needs.
   // By default AM needs Guilds, Guild Messages and Direct Messages to work.
   // For join messages to work you need Guild Members, which is privileged and requires extra setup.

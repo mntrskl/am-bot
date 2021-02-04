@@ -6,6 +6,13 @@ exports.run = async (client, message, args, level) => {
   client.activeGames.add(message.channel.guild.id);
   // setTimeout(() => client.activeGames.delete(message.channel.id), 10000);
 
+  const amVoiceChannel = message.guild.channels.cache
+    .array()
+    .find(
+      ({ id, type }) =>
+        type === "voice" && id === message.settings.voiceChannel,
+    );
+
   let totalScore = 0;
   const showEpisode = createEmbed(client, message);
 
@@ -47,7 +54,11 @@ exports.run = async (client, message, args, level) => {
       };
       Object.keys(emb).map(key => mappedKeys[key]?.(emb[key]));
       await delay(ms(episode.delays.edit));
-      await msg.edit(embed);
+
+      if (!!amVoiceChannel && Math.random() >= 0.5) {
+        const member = randomItem(amVoiceChannel.members.array());
+        await member.send(embed);
+      } else await msg.edit(embed);
     }
 
     const options = {
@@ -57,7 +68,10 @@ exports.run = async (client, message, args, level) => {
     };
 
     try {
-      await message.channel.awaitMessages(e => e.content === "continue;", options);
+      await message.channel.awaitMessages(
+        e => e.content === "continue;",
+        options,
+      );
       const reactions = msg.reactions.cache;
       // Calculate reactions
       totalScore += calculateReactions(reactions, episode);
@@ -95,6 +109,10 @@ exports.help = {
 
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function randomItem(collection) {
+  return collection[Math.floor(Math.random() * collection.length)];
 }
 
 function calculateReactions(reactions, episode) {

@@ -15,6 +15,7 @@ const defaultSettings = {
   welcomeMessage:
     "Say hello to {{user}}, everyone! We all need a warm welcome sometimes :D",
   welcomeEnabled: "false",
+  voiceChannel: "am-voiceChannel-id",
 };
 
 const settings = new Enmap({
@@ -30,15 +31,20 @@ let prompts = [
     message: "Do you want to reset default settings?",
     choices: ["Yes", "No"],
   },
+  {
+    type: "input",
+    name: "token",
+    message: "Please enter the bot token from the application page.",
+  },
+  {
+    type: "input",
+    name: "ownerID",
+    message: "Please enter the bot owner's User ID",
+  },
   // {
   //   type: "input",
-  //   name: "token",
-  //   message: "Please enter the bot token from the application page."
-  // },
-  // {
-  //   type: "input",
-  //   name: "ownerID",
-  //   message: "Please enter the bot owner's User ID"
+  //   name: "voiceChannel",
+  //   message: "Please enter the channel ID that the bot should use to talk",
   // },
   {
     type: "checkbox",
@@ -87,8 +93,9 @@ let prompts = [
   }
 
   baseConfig = baseConfig
-    .replace("{{ownerID}}", process.env.OWNER)
-    .replace("{{token}}", process.env.CLIENT_TOKEN)
+    .replace("{{ownerID}}", answers.ownerID)
+    .replace("{{token}}", answers.token)
+    // .replace("{{voiceChannel}}", answers.voiceChannel)
     .replace("{{intents}}", JSON.stringify(answers.intents));
 
   fs.writeFileSync("./config.js", baseConfig);
