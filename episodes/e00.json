@@ -1,7 +1,7 @@
 {
   "color": "#6366F1",
-  "title": "**🕐 INICIANDO PROTOCOLO DE PROGRAMACIÓN 🕐**",
-  "description": "**☢ ADVERTENCIA ☢**",
+  "title": "**🕐 INICIANDO PROTOCOLO DE PROGRAMACIÓN**",
+  "description": "**!! IMPORTANTE !!**",
   "images": [
     "https://i.imgur.com/n7vnWE7.jpeg"
   ],
@@ -14,11 +14,6 @@
     "gustav-robo-Soy_soy_quien_soy.mp3",
     "gustav-robo-Donde_estoy.mp3"
   ],
-  "reactions": {
-    "⚠️": 0,
-    "🧩": 0,
-    "👬": 0,
-    "🧪": 0
-  },
+  "reactions": {},
   "next": 1
 }

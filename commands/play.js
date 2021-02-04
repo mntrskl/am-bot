@@ -2,9 +2,12 @@ const ms = require("ms");
 // @ts-check
 exports.run = async (client, message, args, level) => {
   // eslint-disable-line no-unused-vars
-  if (client.activeGames.has(message.channel.guild.id)) return;
-  client.activeGames.add(message.channel.guild.id);
-  // setTimeout(() => client.activeGames.delete(message.channel.id), 10000);
+  if (client.activeGames.has(message.channel.guild.id)) {
+    await message.channel.send("Ya existe un juego en curso");
+    return;
+  } else {
+    client.activeGames.add(message.channel.guild.id);
+  }
 
   const amVoiceChannel = message.guild.channels.cache
     .array()
@@ -25,18 +28,24 @@ exports.run = async (client, message, args, level) => {
     if (episode.next === -1) {
       const end = totalScore > 0 ? "good" : "bad";
       const ending = client.endings.find(e => e.ending === end);
-      await showEpisode(ending);
-      // Show total score
-      // await message.channel.send(totalScore);
+
+      const msg = await showEpisode(ending);
+      const [embed] = msg.embeds;
+      embed.addField(
+        `${end.toLocaleUpperCase()} Ending`,
+        `Compasion: ${totalScore}`,
+        false,
+      );
+      await msg.edit(embed);
       await restart();
-      client.logger.log("FIN");
+      client.logger.log(`Game Ended for ${message.channel.guild.id}`);
       return true;
     }
     return false;
   };
 
   const next = async episode => {
-    // Ending
+    // * Ending
     if (await ending(episode)) return;
 
     const msg = await showEpisode(episode);
@@ -55,7 +64,12 @@ exports.run = async (client, message, args, level) => {
       Object.keys(emb).map(key => mappedKeys[key]?.(emb[key]));
       await delay(ms(episode.delays.edit));
 
-      if (!!amVoiceChannel && Math.random() >= 0.5) {
+      // TODO: Validate that the only user connected is not the bot
+      if (
+        !!amVoiceChannel &&
+        amVoiceChannel.members.array().length > 1 &&
+        Math.random() >= 0.5
+      ) {
         const member = randomItem(amVoiceChannel.members.array());
         await member.send(embed);
       } else await msg.edit(embed);
@@ -73,13 +87,13 @@ exports.run = async (client, message, args, level) => {
         options,
       );
       const reactions = msg.reactions.cache;
-      // Calculate reactions
+      // * Calculate reactions
       totalScore += calculateReactions(reactions, episode);
-      // Next Episode
+      // * Next Episode
       await next(client.episodes[episode.next]);
     } catch (error) {
       if (error.value === "timeout") {
-        // Calculate reactions
+        // * Calculate reactions
         const reactions = msg.reactions.cache;
         totalScore += calculateReactions(reactions, episode);
         await restart();
@@ -93,6 +107,7 @@ exports.run = async (client, message, args, level) => {
   next(episode);
 };
 
+//#region Commmand Properties
 exports.conf = {
   enabled: true,
   guildOnly: false,
@@ -106,7 +121,8 @@ exports.help = {
   description: "It literally plays the game...",
   usage: "play",
 };
-
+//#endregion
+//#region Helpers
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -151,3 +167,5 @@ function createEmbed(client, message) {
       },
     });
 }
+
+//#endregion
