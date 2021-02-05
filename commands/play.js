@@ -3,24 +3,32 @@ const ms = require("ms");
 exports.run = async (client, message, args, level) => {
   // eslint-disable-line no-unused-vars
   if (client.activeGames.has(message.channel.guild.id)) {
-    await message.channel.send("Ya existe un juego en curso");
+    await message.channel.send(
+      "_```asciidoc\nPlease wait for the current game to finish before starting a new one\n```_",
+    );
     return;
   } else {
     client.activeGames.add(message.channel.guild.id);
   }
 
-  const amVoiceChannel = message.guild.channels.cache
+  // * Connect to voice
+  const voiceChannel = await message.guild.channels.cache
     .array()
     .find(
       ({ id, type }) =>
         type === "voice" && id === message.settings.voiceChannel,
     );
 
+  //TODO: Check if this works on multiple guilds
+  const members = voiceChannel.members.array().filter(e => !e.user.bot);
+
+  // * Game Start/Setup
   let totalScore = 0;
   const showEpisode = createEmbed(client, message);
 
   const restart = async () => {
     totalScore = 0;
+    await voiceChannel?.leave();
     await client.activeGames.delete(message.channel.guild.id);
   };
 
@@ -47,33 +55,14 @@ exports.run = async (client, message, args, level) => {
   const next = async episode => {
     // * Ending
     if (await ending(episode)) return;
+    const sentMessage = await showEpisode(episode);
+    await loadReactions(episode, sentMessage);
+    await processEmbeds({ members, episode, sentMessage, voiceChannel });
 
-    const msg = await showEpisode(episode);
-    await Promise.all([
-      Object.keys(episode.reactions).map(key => msg.react(key)),
-    ]);
-
-    const [embed] = msg.embeds;
-    episode.embed_replacements.sort(() => Math.random() - 0.5);
-
-    for await (const emb of episode.embed_replacements) {
-      const mappedKeys = {
-        title: t => embed.setTitle(t),
-        description: d => embed.setDescription(d),
-      };
-      Object.keys(emb).map(key => mappedKeys[key]?.(emb[key]));
-      await delay(ms(episode.delays.edit));
-
-      // TODO: Validate that the only user connected is not the bot
-      if (
-        !!amVoiceChannel &&
-        amVoiceChannel.members.array().length > 1 &&
-        Math.random() >= 0.5
-      ) {
-        const member = randomItem(amVoiceChannel.members.array());
-        await member.send(embed);
-      } else await msg.edit(embed);
-    }
+    // TODO: Improve this...
+    await message.channel.send(
+      '_```asciidoc\nto continue with the execution (episode) please make sure everyone reacted accordingly and have someone type "continue;"```_',
+    );
 
     const options = {
       max: 1,
@@ -86,15 +75,17 @@ exports.run = async (client, message, args, level) => {
         e => e.content === "continue;",
         options,
       );
-      const reactions = msg.reactions.cache;
+      const reactions = sentMessage.reactions.cache;
+
       // * Calculate reactions
       totalScore += calculateReactions(reactions, episode);
+
       // * Next Episode
       await next(client.episodes[episode.next]);
     } catch (error) {
       if (error.value === "timeout") {
         // * Calculate reactions
-        const reactions = msg.reactions.cache;
+        const reactions = sentMessage.reactions.cache;
         totalScore += calculateReactions(reactions, episode);
         await restart();
         return error;
@@ -123,12 +114,58 @@ exports.help = {
 };
 //#endregion
 //#region Helpers
-function delay(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+
+async function loadReactions(episode, sentMessage) {
+  return Promise.all([
+    Object.keys(episode.reactions).map(key => sentMessage.react(key)),
+  ]);
 }
 
-function randomItem(collection) {
-  return collection[Math.floor(Math.random() * collection.length)];
+async function processEmbeds(options) {
+  const { members, episode, sentMessage, voiceChannel } = options;
+  const amVoiceConnection = await voiceChannel?.join();
+  const [embed] = sentMessage.embeds;
+  episode.embed_replacements.sort(() => Math.random() - 0.5);
+
+  const messagesPromise = new Promise(async res => {
+    for (const emb of episode.embed_replacements) {
+      const mappedKeys = {
+        title: t => embed.setTitle(t),
+        description: d => embed.setDescription(d),
+      };
+      Object.keys(emb).map(key => mappedKeys[key]?.(emb[key]));
+      await delay(ms(episode.delays.edit));
+
+      if (!!voiceChannel && members.length > 0 && Math.random() >= 0.5) {
+        const member = randomItem(members);
+        await member.send(embed);
+      } else await sentMessage.edit(embed);
+    }
+    res();
+  });
+
+  const audioPromise = new Promise(async res => {
+    for (const audioClip of episode.media) {
+      await playClip(amVoiceConnection, audioClip);
+    }
+    res();
+  });
+
+  return Promise.all([messagesPromise, audioPromise]);
+}
+
+function playClip(connection, clip) {
+  return new Promise((res, rej) => {
+    const options = {
+      volume: 0.5,
+    };
+    setTimeout(() => {
+      connection
+        ?.play(`media/${clip}`, options)
+        .on("finish", res)
+        .on("error", rej);
+    }, ms("3s"));
+  });
 }
 
 function calculateReactions(reactions, episode) {
@@ -166,6 +203,14 @@ function createEmbed(client, message) {
         },
       },
     });
+}
+
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function randomItem(collection) {
+  return collection[Math.floor(Math.random() * collection.length)];
 }
 
 //#endregion
