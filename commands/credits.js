@@ -7,9 +7,10 @@ exports.run = (client, message, args, level) => {
 • Programming  :: 🐻 Diego Geremia
 • Programming  :: 🐱‍💻 Joel Mut
 • Programming  :: Debo Theaux
-• Sound/Music  :: MirchMax
-• Art          :: Kurara
-• Art          :: Sofi Podesta
+• Sound        :: Guillo
+• Music        :: Gusty
+• Design       :: Kurara
+• Art          :: Sofi Podestá
 • Game Design  :: Emma Rubio
 • El que falte :: que me avise`,
     { code: "asciidoc" },
