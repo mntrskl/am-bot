@@ -9,7 +9,7 @@ exports.run = (client, message, args, level) => {
 • Programming  :: Debo Theaux
 • Sound        :: Guillo
 • Music        :: Gusty
-• Design       :: Kurara
+• UX           :: Kurara
 • Art          :: Sofi Podestá
 • Game Design  :: Emma Rubio
 • El que falte :: que me avise`,
